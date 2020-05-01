@@ -5,7 +5,7 @@ Created on Tue Apr 21 18:03:26 2020
 
 @author: danielelucarelli
 
-take a blast file and extract the  column (to be specified)
+take a blast file and extract one  column (to be specified)
  
 than iterate in a fasta file and retrieve the matches
 
@@ -38,7 +38,7 @@ def get_seq(f2,id_li):
     
     for i in id_li:
         for j in content.split('>'):
-            if i in j:
+            if i not in j:
                 seqs.append(j)
     return seqs
         
