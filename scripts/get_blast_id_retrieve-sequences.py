@@ -5,7 +5,7 @@ Created on Tue Apr 21 18:03:26 2020
 
 @author: danielelucarelli
 
-take a blast file and extract one  column (to be specified)
+take the id column from a blast file and retrieve the ids
  
 than iterate in a fasta file and retrieve the matches
 
@@ -24,22 +24,22 @@ def get(f1):
     filein=open(f1,"r")
     id_li=[]
     for line in filein:
-        line.rstrip()
-        line=line.split('\t')
-        if line[x] not in id_li:
-            id_li.append(line[x])
+     
+     id_li.append(line.rstrip())
     filein.close()
     return id_li
 
 def get_seq(f2,id_li):
     filein=open(f2,"r")
     content=filein.read()
-    seqs=[]
+    seqs=content.split('>')
+    seqs.remove("")
+    print (seqs)
+    for i in seqs:
+        if i[3:9] not in id_li:
+            seqs.remove(i)
+ 			
     
-    for i in id_li:
-        for j in content.split('>'):
-            if i  in j:
-                seqs.append(j)
     return seqs
         
 
@@ -49,7 +49,8 @@ if __name__=='__main__':
     id_li = get(sys.argv[1])
     seqs=get_seq(sys.argv[2],id_li)
     f3= open(sys.argv[3], "w")
-    print (len (id_li))
+    print (len(seqs))
+    print(len(id_li))
     for i in seqs:
         f3.write('>' + i)
     f3.close()
