@@ -38,7 +38,7 @@ def get_seq(f2,id_li):
     
     for i in id_li:
         for j in content.split('>'):
-            if i not in j:
+            if i  in j:
                 seqs.append(j)
     return seqs
         
