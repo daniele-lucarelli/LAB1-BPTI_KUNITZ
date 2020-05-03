@@ -12,7 +12,8 @@ for each fold
 Print back the report in the standard output
 
 It can be modified to re-use it with other csv files in other projects
-
+It has to be called as:
+python3 TrainingHMM.py <csv path> <n of splits>
 """
 
 
@@ -51,9 +52,9 @@ def wrongs_ids(df, thr):
     return false
 
 
-def thr_try(data,start_thr, stop_thr, step_thr):
+def thr_try(data,start, stop, step):
     MCCs, exps, ACCs = [], [], []  
-    for exp in range(start_thr, stop_thr, step_thr):
+    for exp in range(start, stop, step):
         thr = 10 ** exp
         y_true = df["Label"].values
         y_pred = [1 if (value < thr) else 0 for value in df["Evalue"].values]
@@ -65,8 +66,8 @@ def thr_try(data,start_thr, stop_thr, step_thr):
         print(thr, ACC, MCC)
     return MCCs, exps, ACCs
 
-def best_thr(data,start_thr, stop_thr, step_thr):
-    MCCs, exps, ACCs = thr_try(data, start_thr, stop_thr, step_thr)
+def best_thr(data,start, stop, step):
+    MCCs, exps, ACCs = thr_try(data, start, stop, step)
     thrs = [10 ** exp for exp in exps]
     best_MCC = 0
     for i in range(len(MCCs)):
@@ -91,7 +92,7 @@ def train_and_test(data, numsplits):
     for i in range(numsplits):
 
         data_train, data_test = split(df, set_index, numsplits)
-        b_thr, thr_list, MCC_list, ACC_list= best_thr(data_train,-20,1,1)
+        b_thr, thr_list, MCC_list, ACC_list= best_thr(data_train,-50,1,1)
         train_point = comp_ponts(data_train, b_thr)
         test_point = comp_ponts(data_test, b_thr)
         report.append((test_point[0], test_point[1], test_point[2], b_thr))
@@ -110,8 +111,8 @@ def train_and_test(data, numsplits):
         print("\nFalse negatives in the test set")
         print(false[1])
         
-    wrong_pred_report_final = false_positives, false_negatives
-    return report, wrong_pred_report_final
+    wrong_final = false_positives, false_negatives
+    return report, wrong_final
 
 
 
@@ -121,4 +122,4 @@ def train_and_test(data, numsplits):
 
 if __name__ == '__main__':
     df=create_df(sys.argv[1])
-    train_and_test(df,3)
+    train_and_test(df,int(sys.argv[3])
