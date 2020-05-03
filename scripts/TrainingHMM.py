@@ -7,8 +7,9 @@ Created on Sat May  2 11:02:17 2020
 
 Take a csv file with three columns id evalue and label
 Derived from an hmm search with a built HMM
-Select the best evalue threshold and make a kfold cross-validation
-Print back the report for each fold in the standard output
+Perform a kfold cross-validation and select the best e-value treshold 
+for each fold
+Print back the report in the standard output
 
 It can be modified to re-use it with other csv files in other projects
 
