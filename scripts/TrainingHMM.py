@@ -122,4 +122,4 @@ def train_and_test(data, numsplits):
 
 if __name__ == '__main__':
     df=create_df(sys.argv[1])
-    train_and_test(df,int(sys.argv[3])
+    train_and_test(df,int(sys.argv[2])
